@@ -1,0 +1,14 @@
+{
+  "RootLayout": {
+    "home_link": "Home",
+    "about_link": "About",
+    "guestbook_link": "Guestbook",
+    "portfolio_link": "Portfolio",
+    "sign_in_link": "Sign in",
+    "sign_up_link": "Sign up"
+  },
+  "HelloWorld": {
+    "meta_title": "Hello world",
+    "meta_description": "Example"
+  }
+}
