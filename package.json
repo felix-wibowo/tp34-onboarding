@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "next lint --fix && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore"
+    "format": "next lint --fix && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "dotenv -c production -- drizzle-kit migrate",
+    "db:studio": "dotenv -c production -- drizzle-kit studio"
   },
   "dependencies": {
     "@clerk/localizations": "^2.4.8",
@@ -37,6 +40,7 @@
     "@vitest/expect": "^2.0.4",
     "autoprefixer": "^10.4.19",
     "cssnano": "^7.0.4",
+    "dotenv-cli": "^7.4.2",
     "drizzle-kit": "^0.23.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
