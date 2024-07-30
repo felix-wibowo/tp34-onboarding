@@ -1,34 +1,22 @@
-import { pgTable, serial, text, timestamp, integer, numeric } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, real, time, date } from 'drizzle-orm/pg-core';
 
-// NODE table schema
-export const nodeSchema = pgTable('node', {
-  node_id: integer('node_id').primaryKey(),
-  lga_name: text('lga_name').notNull(),
-  latitude: numeric('latitude').notNull(),
-  longitude: numeric('longitude').notNull(),
-  accident_no: integer('accident_no').notNull().references(() => accidentSchema.accident_no),
-});
-
-// ACCIDENT table schema
-export const accidentSchema = pgTable('accident', {
-  accident_no: integer('accident_no').primaryKey(),
-  accident_date: timestamp('accident_date', { mode: 'date' }).notNull(),
-  accident_time: timestamp('accident_time', { mode: 'date' }).notNull(),
+export const accidentSchema = pgTable('accidents', {
+  accident_no: text('accident_no').primaryKey(),
+  accident_date: date('accident_date').notNull(),
+  accident_time: time('accident_time').notNull(),
+  accident_type: text('accident_type').notNull(),
   severity: text('severity').notNull(),
   speed_zone: text('speed_zone').notNull(),
-});
-
-// BikeRoute table schema
-export const bikeRouteSchema = pgTable('bike_route', {
-  geo_point: serial('geo_point').primaryKey(),
-  type: text('type').notNull(),
-  geo_shape: text('geo_shape').notNull(),
-  name: text('name').notNull(),
-});
-
-// AccidentBikeRoute table schema
-export const accidentBikeRouteSchema = pgTable('accident_bike_route', {
-  accident_no: integer('accident_no').notNull().references(() => accidentSchema.accident_no),
-  geo_point: integer('geo_point').notNull().references(() => bikeRouteSchema.geo_point),
-  distance: numeric('distance').notNull(),
+  road_name: text('road_name').notNull(),
+  road_type: text('road_type').notNull(),
+  lga_name: text('lga_name').notNull(),
+  latitude: real('latitude').notNull(),
+  longitude: real('longitude').notNull(),
+  vicgrid_x: real('vicgrid_x').notNull(),
+  vicgrid_y: real('vicgrid_y').notNull(),
+  bicyclist: integer('bicyclist').notNull(),
+  serious_injury: integer('serious_injury').notNull(),
+  other_injury: integer('other_injury').notNull(),
+  non_injured: integer('non_injured').notNull(),
+  fatality: integer('fatality').notNull(),
 });
