@@ -1,13 +1,11 @@
 import { logger } from "@/libs/Logger";
 import { NextResponse } from "next/server";
 
-export const GET = async (request: Request) => {
-  const json = await request.json();
-
+export const GET = async () => {
   try {
     logger.info('A new guestbook has been created');
 
-    return NextResponse.json(json);
+    return NextResponse.json({ status: "success"}, { status: 200 });
   } catch (error) {
     logger.error(error, 'An error occurred while creating a guestbook');
 
