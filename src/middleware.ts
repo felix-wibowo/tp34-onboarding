@@ -1,4 +1,4 @@
-import type { NextFetchEvent, NextRequest } from 'next/server';
+import type { NextRequest } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 
 import { AppConfig } from './utils/AppConfig';
@@ -11,7 +11,7 @@ const intlMiddleware = createMiddleware({
 
 export default function middleware(
   request: NextRequest,
-  event: NextFetchEvent,
+  // event: NextFetchEvent,
 ) {
   return intlMiddleware(request);
 }

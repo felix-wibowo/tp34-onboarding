@@ -6,7 +6,7 @@ import { eq } from 'drizzle-orm';
 import { logger } from '@/libs/Logger';
 
 // GET all accidents
-export const GET = async (request: Request) => {
+export const GET = async () => {
   try {
     return NextResponse.json({ hi: "hi" }, { status: 200 });
   } catch (error: any) {
