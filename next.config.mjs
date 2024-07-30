@@ -8,6 +8,15 @@ const jiti = createJiti(fileURLToPath(import.meta.url));
 jiti('./src/libs/Env');
 
 const withNextIntlConfig = withNextIntl('./src/libs/i18n.ts');
-const nextConfig = {};
- 
+const nextConfig = {
+  eslint: {
+    dirs: ['.'],
+  },
+  poweredByHeader: false,
+  reactStrictMode: true,
+  experimental: {
+    serverComponentsExternalPackages: ['@electric-sql/pglite'],
+  },
+};
+
 export default withNextIntlConfig(nextConfig);
