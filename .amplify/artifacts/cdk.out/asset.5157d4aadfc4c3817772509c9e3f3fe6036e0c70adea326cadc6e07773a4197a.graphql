@@ -1,0 +1,318 @@
+type Accident @aws_iam @aws_api_key {
+  accident_no: String!
+  accident_date: AWSDate!
+  accident_time: AWSTime!
+  accident_type: String!
+  severity: String!
+  speed_zone: String!
+  road_name: String!
+  road_type: String!
+  lga_name: String!
+  latitude: Float!
+  longitude: Float!
+  vicgrid_x: Float!
+  vicgrid_y: Float!
+  bicyclist: Int!
+  serious_injury: Int!
+  other_injury: Int!
+  non_injured: Int!
+  fatality: Int!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelAccidentConnection @aws_api_key @aws_iam {
+  items: [Accident]!
+  nextToken: String
+}
+
+input ModelAccidentFilterInput {
+  accident_no: ModelStringInput
+  accident_date: ModelStringInput
+  accident_time: ModelStringInput
+  accident_type: ModelStringInput
+  severity: ModelStringInput
+  speed_zone: ModelStringInput
+  road_name: ModelStringInput
+  road_type: ModelStringInput
+  lga_name: ModelStringInput
+  latitude: ModelFloatInput
+  longitude: ModelFloatInput
+  vicgrid_x: ModelFloatInput
+  vicgrid_y: ModelFloatInput
+  bicyclist: ModelIntInput
+  serious_injury: ModelIntInput
+  other_injury: ModelIntInput
+  non_injured: ModelIntInput
+  fatality: ModelIntInput
+  id: ModelIDInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelAccidentFilterInput]
+  or: [ModelAccidentFilterInput]
+  not: ModelAccidentFilterInput
+}
+
+type Query {
+  getAccident(accident_no: String!): Accident @aws_api_key @aws_iam
+  listAccidents(accident_no: String, filter: ModelAccidentFilterInput, limit: Int, nextToken: String, sortDirection: ModelSortDirection): ModelAccidentConnection @aws_api_key @aws_iam
+}
+
+input ModelAccidentConditionInput {
+  accident_date: ModelStringInput
+  accident_time: ModelStringInput
+  accident_type: ModelStringInput
+  severity: ModelStringInput
+  speed_zone: ModelStringInput
+  road_name: ModelStringInput
+  road_type: ModelStringInput
+  lga_name: ModelStringInput
+  latitude: ModelFloatInput
+  longitude: ModelFloatInput
+  vicgrid_x: ModelFloatInput
+  vicgrid_y: ModelFloatInput
+  bicyclist: ModelIntInput
+  serious_injury: ModelIntInput
+  other_injury: ModelIntInput
+  non_injured: ModelIntInput
+  fatality: ModelIntInput
+  and: [ModelAccidentConditionInput]
+  or: [ModelAccidentConditionInput]
+  not: ModelAccidentConditionInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+}
+
+input CreateAccidentInput {
+  accident_no: String!
+  accident_date: AWSDate!
+  accident_time: AWSTime!
+  accident_type: String!
+  severity: String!
+  speed_zone: String!
+  road_name: String!
+  road_type: String!
+  lga_name: String!
+  latitude: Float!
+  longitude: Float!
+  vicgrid_x: Float!
+  vicgrid_y: Float!
+  bicyclist: Int!
+  serious_injury: Int!
+  other_injury: Int!
+  non_injured: Int!
+  fatality: Int!
+}
+
+input UpdateAccidentInput {
+  accident_no: String!
+  accident_date: AWSDate
+  accident_time: AWSTime
+  accident_type: String
+  severity: String
+  speed_zone: String
+  road_name: String
+  road_type: String
+  lga_name: String
+  latitude: Float
+  longitude: Float
+  vicgrid_x: Float
+  vicgrid_y: Float
+  bicyclist: Int
+  serious_injury: Int
+  other_injury: Int
+  non_injured: Int
+  fatality: Int
+}
+
+input DeleteAccidentInput {
+  accident_no: String!
+}
+
+type Mutation {
+  createAccident(input: CreateAccidentInput!, condition: ModelAccidentConditionInput): Accident @aws_api_key @aws_iam
+  updateAccident(input: UpdateAccidentInput!, condition: ModelAccidentConditionInput): Accident @aws_api_key @aws_iam
+  deleteAccident(input: DeleteAccidentInput!, condition: ModelAccidentConditionInput): Accident @aws_api_key @aws_iam
+}
+
+input ModelSubscriptionAccidentFilterInput {
+  accident_no: ModelSubscriptionStringInput
+  accident_date: ModelSubscriptionStringInput
+  accident_time: ModelSubscriptionStringInput
+  accident_type: ModelSubscriptionStringInput
+  severity: ModelSubscriptionStringInput
+  speed_zone: ModelSubscriptionStringInput
+  road_name: ModelSubscriptionStringInput
+  road_type: ModelSubscriptionStringInput
+  lga_name: ModelSubscriptionStringInput
+  latitude: ModelSubscriptionFloatInput
+  longitude: ModelSubscriptionFloatInput
+  vicgrid_x: ModelSubscriptionFloatInput
+  vicgrid_y: ModelSubscriptionFloatInput
+  bicyclist: ModelSubscriptionIntInput
+  serious_injury: ModelSubscriptionIntInput
+  other_injury: ModelSubscriptionIntInput
+  non_injured: ModelSubscriptionIntInput
+  fatality: ModelSubscriptionIntInput
+  id: ModelSubscriptionIDInput
+  createdAt: ModelSubscriptionStringInput
+  updatedAt: ModelSubscriptionStringInput
+  and: [ModelSubscriptionAccidentFilterInput]
+  or: [ModelSubscriptionAccidentFilterInput]
+}
+
+type Subscription {
+  onCreateAccident(filter: ModelSubscriptionAccidentFilterInput): Accident @aws_subscribe(mutations: ["createAccident"]) @aws_api_key @aws_iam
+  onUpdateAccident(filter: ModelSubscriptionAccidentFilterInput): Accident @aws_subscribe(mutations: ["updateAccident"]) @aws_api_key @aws_iam
+  onDeleteAccident(filter: ModelSubscriptionAccidentFilterInput): Accident @aws_subscribe(mutations: ["deleteAccident"]) @aws_api_key @aws_iam
+}
