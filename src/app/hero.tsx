@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import herobackground from '/public/herobackground.jpg'
 
 const Hero = () =>  {
