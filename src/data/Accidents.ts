@@ -4,6 +4,7 @@ import { dataClient } from "@/utils/AmplifyData";
 export const fetchAccidentsLatLong = async () => {
   const { data, nextToken, errors } = await dataClient.models.accidents.list({
     selectionSet: ["accident_no", "latitude", "longitude"],
+    limit: 10,
   });
 
   logger.info(

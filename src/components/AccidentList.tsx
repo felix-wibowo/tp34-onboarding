@@ -1,18 +1,15 @@
 import { fetchAccidentsLatLong } from "@/data/Accidents";
-import { logger } from "@/libs/Logger";
+import { fetchBikeRoutes } from "@/data/BikeRoutes";
 
 const AccidentList = async () => {
   const accidents = await fetchAccidentsLatLong();
-
-  logger.info(accidents);
+  const bikeRoutes = await fetchBikeRoutes();
 
   return (
     <div className="mt-5" data-testid="accident-list">
-      {accidents.map((acc) => (
-        <div key={acc.accident_no} className="mb-1 flex items-center gap-x-1">
-          {acc.accident_no}
-        </div>
-      ))}
+      {JSON.stringify(accidents)}
+      <br/>
+      {JSON.stringify(bikeRoutes)}
     </div>
   );
 }

@@ -33,8 +33,7 @@ export const schema = configure({
 }).schema({
     "accidents": a.model({
         accident_no: a.string().required(),
-        accident_date: a.date().required(),
-        accident_time: a.time().required(),
+        accident_datetime: a.datetime().required(),
         accident_type: a.string().required(),
         severity: a.string().required(),
         speed_zone: a.string().required(),
@@ -52,5 +51,14 @@ export const schema = configure({
         fatality: a.integer().required()
     }).identifier([
         "accident_no"
+    ]),
+    "bike_routes": a.model({
+        id: a.integer().required(),
+        geo_shape: a.json().required(),
+        type: a.string().required(),
+        latitude: a.float().required(),
+        longitude: a.float().required()
+    }).identifier([
+        "id"
     ])
 });
