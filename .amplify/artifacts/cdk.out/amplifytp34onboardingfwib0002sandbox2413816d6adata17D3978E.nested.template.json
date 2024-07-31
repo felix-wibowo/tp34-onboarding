@@ -67,7 +67,7 @@
       "ApiId"
      ]
     },
-    "Expires": 1725026660
+    "Expires": 1725033296
    },
    "Metadata": {
     "aws:cdk:path": "amplify-tp34onboarding-fwib0002-sandbox-2413816d6a/data/amplifyData/GraphQLAPI/DefaultApiKey"
@@ -131,7 +131,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/38b3eab0a6ebaaf3f1c3720956626b62bc01c29f3c97d3b64bcbab5a4f2070c5.json"
+       "/c7d1b992cc016c8d4a44ab2d92298d4c55fc5b6ea9f7f1700775f258d1958bcf.json"
       ]
      ]
     }
