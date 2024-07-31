@@ -13,6 +13,7 @@
     "db:studio": "dotenv -c production -- drizzle-kit studio"
   },
   "dependencies": {
+    "@aws-amplify/adapter-nextjs": "^1.2.10",
     "@clerk/localizations": "^2.4.8",
     "@clerk/nextjs": "^5.2.4",
     "@electric-sql/pglite": "^0.1.5",
