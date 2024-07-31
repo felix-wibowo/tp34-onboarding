@@ -1,13 +1,18 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Amplify } from "aws-amplify";
 
 import outputs from "amplify_outputs.json";
+import { FixedPlugin, Footer, Layout, Navbar } from "@/components";
 
 Amplify.configure(outputs, { ssr: true });
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700", "900"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,8 +26,33 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {children}
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+          integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+          crossOrigin="anonymous"
+          referrerPolicy="no-referrer"
+        />
+        <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+      </head>
+      <body className={roboto.className}>
+        <Layout>
+          <Navbar />
+
+          <div className="relative min-h-screen w-full">
+            <header className="grid !min-h-[25rem] bg-gray-900 px-8">
+              <div className="container mx-auto mt-32 grid h-full w-full grid-cols-1 place-items-center lg:mt-14 lg:grid-cols-2">
+              </div>
+            </header>
+            <div className="mx-8 lg:mx-16 -mt-24 rounded-xl bg-white p-5 md:p-14 shadow-md">
+              {children}
+            </div>
+          </div>
+
+          <Footer />
+          <FixedPlugin />
+        </Layout>
       </body>
     </html>
   );

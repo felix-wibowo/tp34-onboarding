@@ -1,10 +1,8 @@
-import { fetchAccidents } from "@/data/Accidents";
+import { fetchAccidentsLatLong } from "@/data/Accidents";
 import { logger } from "@/libs/Logger";
 
 const AccidentList = async () => {
-  logger.info("Come here");
-
-  const accidents = await fetchAccidents();
+  const accidents = await fetchAccidentsLatLong();
 
   logger.info(accidents);
 
