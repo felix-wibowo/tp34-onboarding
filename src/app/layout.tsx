@@ -6,7 +6,6 @@ import { Amplify } from "aws-amplify";
 import outputs from "amplify_outputs.json";
 import Navbar from "./navbar";
 import Hero from "./hero";
-import MiddleSection from "./middle";
 
 Amplify.configure(outputs, { ssr: true });
 
@@ -17,6 +16,7 @@ export const metadata: Metadata = {
   description: "Community Safe Bicycling Information",
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -25,10 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar/>
-        <Hero/>
-        <MiddleSection/>
-        {children}
+        <main>
+          <Navbar/>
+          {children}
+        </main>
       </body>
     </html>
   );
