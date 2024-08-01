@@ -5,7 +5,6 @@ import { Amplify } from "aws-amplify";
 
 import outputs from "amplify_outputs.json";
 import Navbar from "./navbar";
-import Hero from "./hero";
 
 Amplify.configure(outputs, { ssr: true });
 
