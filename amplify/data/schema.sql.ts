@@ -6,29 +6,8 @@ import { secret } from "@aws-amplify/backend";
 
 export const schema = configure({
     database: {
-        identifier: "IDBlgdO63hnpWdUqdUyy3rA",
         engine: "postgresql",
         connectionUri: secret("SQL_CONNECTION_STRING"),
-        vpcConfig: {
-            vpcId: "vpc-0d8d63bcc5fe73329",
-            securityGroupIds: [
-                "sg-0c38a232136f317d5"
-            ],
-            subnetAvailabilityZones: [
-                {
-                    subnetId: "subnet-013f171fc59b57157",
-                    availabilityZone: "ap-southeast-2b"
-                },
-                {
-                    subnetId: "subnet-032acfe7a22cbeff2",
-                    availabilityZone: "ap-southeast-2a"
-                },
-                {
-                    subnetId: "subnet-0dd81f7d867f53d0f",
-                    availabilityZone: "ap-southeast-2c"
-                }
-            ]
-        }
     }
 }).schema({
     "accidents": a.model({
