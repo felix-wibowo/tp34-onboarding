@@ -1,1 +1,0 @@
-ALTER TABLE "bike_routes" ADD COLUMN "direction" text NOT NULL;
