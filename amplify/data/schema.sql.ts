@@ -8,6 +8,7 @@ export const schema = configure({
     database: {
         engine: "postgresql",
         connectionUri: secret("SQL_CONNECTION_STRING"),
+        sslCert: secret("SSL_CA_CERT")
     }
 }).schema({
     "accidents": a.model({
