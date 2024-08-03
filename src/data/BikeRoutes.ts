@@ -1,14 +1,21 @@
-import { logger } from "@/libs/Logger";
 import { dataClient } from "@/utils/AmplifyData";
 
 export const fetchBikeRoutes = async () => {
-  const { data, nextToken, errors } = await dataClient.models.bike_routes.list({
-    limit: 10,
+  const { data } = await dataClient.models.bike_routes.list({
+    limit: 500,
   });
 
-  logger.info(
-    `Fetch bike routes successful. Next token present: ${nextToken ? "yes" : "no"} ${errors}`,
-  );
+  const features = data.map((d) => {
+    return {
+      geometry: typeof d.geo_shape === "string" ? JSON.parse(d.geo_shape) : {},
+      properties: {}
+    }
+  })
+  
+  const geoJSON = {
+    type: "FeatureCollection",
+    features: features
+  }
 
-  return data;
+  return geoJSON;
 };

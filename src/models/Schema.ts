@@ -26,9 +26,16 @@ export const accidentSchema = pgTable("accidents", {
   other_injury: integer("other_injury").notNull(),
   non_injured: integer("non_injured").notNull(),
   fatality: integer("fatality").notNull(),
+  post_code: integer("post_code").notNull().default(3000)
 });
 
-export const bikeRoute = pgTable("bike_routes", {
+export const postCodeSchema = pgTable("post_codes", {
+  post_code: integer("post_code").primaryKey(),
+  suburb_name: text("suburb_name").notNull(),
+  boundary_geo_json: json("boundary_geo_json")
+});
+
+export const bikeRouteSchema = pgTable("bike_routes", {
   id: serial("id").primaryKey(),
   geo_shape: json("geo_shape").notNull(),
   type: text("type").notNull(),

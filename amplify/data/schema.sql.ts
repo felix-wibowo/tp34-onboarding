@@ -48,7 +48,8 @@ export const schema = configure({
         serious_injury: a.integer().required(),
         other_injury: a.integer().required(),
         non_injured: a.integer().required(),
-        fatality: a.integer().required()
+        fatality: a.integer().required(),
+        post_code: a.integer().required()
     }).identifier([
         "accident_no"
     ]),
@@ -57,8 +58,16 @@ export const schema = configure({
         geo_shape: a.json().required(),
         type: a.string().required(),
         latitude: a.float().required(),
-        longitude: a.float().required()
+        longitude: a.float().required(),
+        direction: a.string().required()
     }).identifier([
         "id"
+    ]),
+    "post_codes": a.model({
+        post_code: a.integer().required(),
+        suburb_name: a.string().required(),
+        boundary_geo_json: a.json()
+    }).identifier([
+        "post_code"
     ])
 });
