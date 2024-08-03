@@ -17,6 +17,7 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ['@electric-sql/pglite'],
   },
+  output: 'standalone',
 };
 
 export default withNextIntlConfig(nextConfig);
