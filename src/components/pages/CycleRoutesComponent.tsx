@@ -51,7 +51,7 @@ export default function Page({bikeRoutes}: any) {
     };
 
     useEffect(() => {
-        showSwal();
+
     }, [])
 
     useEffect(() => {

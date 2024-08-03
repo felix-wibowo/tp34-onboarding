@@ -1,8 +1,17 @@
+"use client";
 import CycleRoutesComponent from "@/components/pages/CycleRoutesComponent";
-import { fetchBikeRoutes } from "@/data/BikeRoutes";
+import { useEffect, useState } from "react";
 
-export default async function Page() {
-  const bikeRoutes = await fetchBikeRoutes();
+export default function Page() {
+  const [bikeRoutes, setBikeRoutes] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/bike-routes')
+      .then((res) => res.json())
+      .then((data) => {
+        setBikeRoutes(data);
+      })
+  }, [])
 
   return (
     <>
