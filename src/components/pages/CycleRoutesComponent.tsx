@@ -5,6 +5,7 @@ import herobackground from '/public/herobackground-cycleroutes.png'
 import { AutocompleteCustom } from '@/components/AutocompletePlaces';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2'
 
 const PLACES_INPUT_NAME = {
     STARTING: "starting",
@@ -21,6 +22,23 @@ export default function Page({bikeRoutes}: any) {
     const [destinationPlace, setDestinationPlace] = useState<google.maps.places.PlaceResult | null>(null);
     const [markers, setMarkers] = useState<MarkerTypes[]>([]);
 
+    const showSwal = () => {
+        Swal.fire({
+            title: "Finding your safest route...",
+            timer: 2000,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            didClose: () => {
+                
+            }
+        }).then((result) => {
+            /* Read more about handling dismissals below */
+            if (result.dismiss === Swal.DismissReason.timer) {
+            }
+        });
+    }
+    
     const onPlaceSelect = (place: google.maps.places.PlaceResult | null, inputName: string) => {
         switch (inputName) {
             case PLACES_INPUT_NAME.STARTING:
@@ -33,6 +51,10 @@ export default function Page({bikeRoutes}: any) {
     };
 
     useEffect(() => {
+        showSwal();
+    }, [])
+
+    useEffect(() => {
         const startingMarker: any = startingPlace ? {lat: startingPlace.geometry?.location?.lat(),lng: startingPlace.geometry?.location?.lng()} : null;
 
         const destinationMarker: any = destinationPlace ? {lat: destinationPlace.geometry?.location?.lat(),lng: destinationPlace.geometry?.location?.lng()} :  null;
@@ -42,6 +64,10 @@ export default function Page({bikeRoutes}: any) {
         if (destinationMarker) markers.push(destinationMarker);
 
         setMarkers(markers);
+
+        if (startingMarker && destinationMarker) {
+            showSwal();
+        }
     }, [startingPlace, destinationPlace])
     
     return (
