@@ -1,6 +1,9 @@
+"use client"
 import herobackground from '/public/herobackground-accidents.png'
+import AccidentMap from './accidentmap';
 
 export default function Page() {
+
     return (
     <>
         <section id="hero">
@@ -38,8 +41,10 @@ export default function Page() {
                 </div>
             </div>
         </section>
-        <section id='accidentmap' className='bg-white-200 flex flex-1 justify-center'>
-            <div><h1>Accident Dynamic Map Component</h1></div>
+        <section id='accidentmap' className='bg-white-200 py-5'>
+            <div className=''>
+                <AccidentMap/>
+            </div>
         </section>
     </>
     );
