@@ -6,6 +6,8 @@ import { AutocompleteCustom } from '@/components/AutocompletePlaces';
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2'
+import { v4 as uuidv4 } from 'uuid';
+import ClickableCard from '../ClickableCard';
 
 const PLACES_INPUT_NAME = {
   STARTING: "starting",
@@ -19,27 +21,11 @@ interface MarkerTypes {
 
 export default function Page({bikeRoutes}: any) {
   const [isLargeScreen, setIsLargeScreen] = useState(true); // Assuming 'medium' starts at 768px
-
-  useEffect(() => {
-    setIsLargeScreen(window.innerWidth >= 768);
-
-    const handleResize = () => {
-      setIsLargeScreen(window.innerWidth >= 768);
-      console.log("Resize")
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-
   const [startingPlace, setStartingPlace] = useState<google.maps.places.PlaceResult | null>(null);
   const [destinationPlace, setDestinationPlace] = useState<google.maps.places.PlaceResult | null>(null);
-  const [markers, setMarkers] = useState<MarkerTypes[]>([]);
+  const [markers, _setMarkers] = useState<MarkerTypes[]>([]);
   const [displayedBikeRoutes, setDisplayedBikeRoutes] = useState(bikeRoutes);
+  const [directionSteps, setDirectionSteps] = useState<google.maps.DirectionsStep[]>([]);
 
   const map = useMap();
   const routes = useMapsLibrary('routes');
@@ -94,8 +80,21 @@ export default function Page({bikeRoutes}: any) {
         origin: new google.maps.LatLng(startingGeo.lat, startingGeo.lng),
         destination: new google.maps.LatLng(destinationGeo.lat, destinationGeo.lng),
         travelMode: google.maps.TravelMode.BICYCLING,
+        unitSystem: google.maps.UnitSystem.METRIC
       });
+      
+      const routes = routeResult.routes as google.maps.DirectionsRoute[];
   
+      const allSteps: google.maps.DirectionsStep[] = [];
+
+      routes.forEach(route => {
+        route.legs.forEach(leg => {
+          allSteps.push(...leg.steps);
+        });
+      });
+
+      setDirectionSteps(allSteps);
+        
       setDisplayedBikeRoutes([])
   
       // Scroll to the bottom of the map container after updating the routes
@@ -106,6 +105,21 @@ export default function Page({bikeRoutes}: any) {
       directionsRenderer.setDirections(routeResult || null);
     }
   }
+
+  useEffect(() => {
+    setIsLargeScreen(window.innerWidth >= 768);
+
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 768);
+      console.log("Resize")
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     setDisplayedBikeRoutes(bikeRoutes);
@@ -129,18 +143,6 @@ export default function Page({bikeRoutes}: any) {
       setDirectionsRenderer(null)
     };
   }, [map, routes]);
-
-  useEffect(() => {
-    const startingMarker: any = startingPlace ? {lat: startingPlace.geometry?.location?.lat(),lng: startingPlace.geometry?.location?.lng()} : null;
-
-    const destinationMarker: any = destinationPlace ? {lat: destinationPlace.geometry?.location?.lat(),lng: destinationPlace.geometry?.location?.lng()} :  null;
-    
-    const markers: MarkerTypes[] = [];
-    if (startingMarker) markers.push(startingMarker);
-    if (destinationMarker) markers.push(destinationMarker);
-
-    setMarkers(markers);
-  }, [startingPlace, destinationPlace])
     
     return (
     <>
@@ -195,15 +197,33 @@ export default function Page({bikeRoutes}: any) {
                   
                   </div>
                 </div>
-                <div className='px-2'>
+                <div className='px-2 pb-4'>
                   <button
                     onClick={findRoute}
                     type="button"
-                    className="text-white bg-orange-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    className="w-full text-white bg-orange-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                     >
                     Find Route
                   </button>
                 </div>
+                <hr />
+                { directionSteps.length == 0 || 
+                  <>
+                    <div className="flex-1 text-center w-full my-2">
+                      <h2 className="font-sans text-3xl tracking-tight leading-10 font-extrabold sm:text-2xl text-white sm:leading-none md:text-3xl">
+                        <span className="text-orange-400">Route Details</span>
+                      </h2>
+                    </div>
+
+                    <hr />
+
+                    <ClickableCard onClickHandler={() => {
+
+                    }} title="Steps" body=""/>
+                    <ClickableCard onClickHandler={() => {}} title="Safety Risks" body=""/>
+                    <ClickableCard onClickHandler={() => {}} title="Past Accidents" body=""/>
+                  </>
+                }
               </form>
             </div>
             <div >
@@ -212,7 +232,6 @@ export default function Page({bikeRoutes}: any) {
             <div ref={bottomMostRef}>
             </div>
           </div>
-
         </section>
     </>
   );
