@@ -30,12 +30,12 @@ const Navbar = () => {
                 >
                   Routes
                 </Link>
-                <Link
+                {/* <Link
                   href="/incidents"
                   className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                 >
                   Incidents
-                </Link>
+                </Link> */}
                 <Link
                   href="/accidents"
                   className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"

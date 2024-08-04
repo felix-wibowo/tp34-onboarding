@@ -16,6 +16,7 @@
     "@clerk/localizations": "^2.4.8",
     "@clerk/nextjs": "^5.2.4",
     "@electric-sql/pglite": "^0.1.5",
+    "@googlemaps/markerclusterer": "^2.5.3",
     "@heroicons/react": "2.0.18",
     "@material-tailwind/react": "2.1.2",
     "@t3-oss/env-nextjs": "^0.11.0",
