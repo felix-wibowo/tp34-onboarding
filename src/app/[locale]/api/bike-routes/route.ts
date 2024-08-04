@@ -2,7 +2,6 @@ import { db } from "@/libs/Db";
 import { bikeRouteSchema } from "@/models/Schema";
 import { NextResponse } from 'next/server';
 
-
 export const GET = async () => {
   const data = await db.select().from(bikeRouteSchema);
   
