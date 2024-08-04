@@ -1,16 +1,15 @@
-import Link from 'next/link';
 import herobackground from '/public/aboutus.jpg'
 
 const people = [
   {
     name: 'Xiaoli Hu',
     role: 'MIT',
-    imageUrl: './eva.jpg',
+    imageUrl: '/eva.jpg',
   },
   {
     name: 'Felix Wibowo',
     role: 'MCS',
-    imageUrl: './felix.jpeg',
+    imageUrl: '/felix.jpeg',
   },
   {
     name: 'Atharva Hendre',
@@ -20,7 +19,7 @@ const people = [
   {
     name: 'Komal',
     role: 'MDS',
-    imageUrl: './komal.jpeg',
+    imageUrl: '/komal.jpeg',
   },
   {
     name: 'Zuxu Tian',

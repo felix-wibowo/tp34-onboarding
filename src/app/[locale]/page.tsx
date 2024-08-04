@@ -20,7 +20,7 @@ export default function Page() {
                     <span className="text-orange-400"> Bicycling</span>
                     </h2>
                     <p className="mt-3 text-white sm:mt-5 sm:max-w-xl md:mt-5 text-lg font-light">
-                    Making Melbourne's urban cycling safer, sustainable, and friendly.
+                    Making Melbourne&apos;s urban cycling safer, sustainable, and friendly.
                     </p>
                     <div className="mt-5 sm:mt-8 sm:flex justify-start">
                     <div className="rounded-md shadow">
@@ -55,7 +55,7 @@ export default function Page() {
                         The Problem We Are Facing
                     </h3>
                     <p className="text-lg text-black mb-3">
-                    Melbourne is a bustling city offering vibrant urban life, but it poses significant challenges for cyclists. The city’s infrastructure and complex traffic situation haven't fully met the growing demand for safe and convenient cycle paths.
+                    Melbourne is a bustling city offering vibrant urban life, but it poses significant challenges for cyclists. The city&apos;s infrastructure and complex traffic situation haven&apos;t fully met the growing demand for safe and convenient cycle paths.
                     </p>
                     
                 </div>
