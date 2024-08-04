@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 interface Props {
   markers: {lat: number, lng: number}[];
   bikeRoutes: any;
+  isLargeScreen: any;
 }
 
 function getDeckGlLayers(data: GeoJSON | null) {
@@ -42,14 +43,12 @@ function getDeckGlLayers(data: GeoJSON | null) {
   ];
 }
 
-const MapComponent = ({markers, bikeRoutes}: Props) => {
+const MapComponent = ({markers, bikeRoutes, isLargeScreen}: Props) => {
   const apiIsLoaded = useApiIsLoaded();
 
   useEffect(() => {
     if (!apiIsLoaded) return;
   }, [apiIsLoaded]);
-
-  const data: any = bikeRoutes;
 
   const INITIAL_VIEW_STATE: MapViewState = {
     longitude: 144.964463,
@@ -58,7 +57,7 @@ const MapComponent = ({markers, bikeRoutes}: Props) => {
   };
     
   return (
-    <div style={{ height: '75vh', width: '75vw', position: 'relative' }}>
+    <div style={isLargeScreen ? { height: '100vh', width: '75vw', position: 'relative' } : { height: '75vh', width: '100vw', position: 'relative' }}>
       <Map
         defaultZoom={INITIAL_VIEW_STATE.zoom}
         defaultCenter={{lat:INITIAL_VIEW_STATE.latitude, lng: INITIAL_VIEW_STATE.longitude}}
@@ -70,7 +69,7 @@ const MapComponent = ({markers, bikeRoutes}: Props) => {
           markers.map((value, key) => <Marker key={key} position={{lat: value.lat, lng: value.lng}}></Marker>)
         }
         
-        <DeckGlOverlay layers={getDeckGlLayers(data)} />
+        <DeckGlOverlay layers={getDeckGlLayers(bikeRoutes)} />
       </Map>
     </div>
   )
