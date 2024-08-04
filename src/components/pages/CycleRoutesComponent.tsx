@@ -6,8 +6,8 @@ import { AutocompleteCustom } from '@/components/AutocompletePlaces';
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2'
-import { v4 as uuidv4 } from 'uuid';
 import ClickableCard from '../ClickableCard';
+import { Chip } from "@material-tailwind/react";
 
 const PLACES_INPUT_NAME = {
   STARTING: "starting",
@@ -171,8 +171,8 @@ export default function Page({bikeRoutes}: any) {
 
         <section id="map-display">
           <div className='flex flex-col md:flex-row'>
-            <div className='p-5'>
-              <form className="w-full max-w-lg">
+            <div className='p-5 h-screen flex flex-col'>
+              <form className="w-full max-w-lg h-auto">
                 <div className="flex flex-wrap mb-2">
                   <div className="w-full px-2 mb-2">
                   <label
@@ -206,25 +206,31 @@ export default function Page({bikeRoutes}: any) {
                     Find Route
                   </button>
                 </div>
-                <hr />
-                { directionSteps.length == 0 || 
-                  <>
-                    <div className="flex-1 text-center w-full my-2">
-                      <h2 className="font-sans text-3xl tracking-tight leading-10 font-extrabold sm:text-2xl text-white sm:leading-none md:text-3xl">
-                        <span className="text-orange-400">Route Details</span>
-                      </h2>
-                    </div>
-
-                    <hr />
-
-                    <ClickableCard onClickHandler={() => {
-
-                    }} title="Steps" body=""/>
-                    <ClickableCard onClickHandler={() => {}} title="Safety Risks" body=""/>
-                    <ClickableCard onClickHandler={() => {}} title="Past Accidents" body=""/>
-                  </>
-                }
               </form>
+
+              <div className='flex-grow overflow-y-auto'>
+                <hr />
+                  {
+                    directionSteps.length == 0 || 
+                    <>
+                      <div className="flex-1 text-center w-full my-2">
+                        <h2 className="font-sans text-3xl tracking-tight leading-10 font-extrabold sm:text-2xl text-white sm:leading-none md:text-3xl">
+                          <span className="text-orange-400">Route Details</span>
+                        </h2>
+                      </div>
+
+                      <hr />
+                      <div className="flex flex-row mt-2 justify-between">
+                        <div className='flex'>
+                          <Chip variant="outlined" value="Direction Steps"/>
+                        </div>
+                        <div className='flex'>
+                          <Chip variant="outlined" value="Past Accidents"/>
+                        </div>
+                      </div>
+                    </>
+                  }
+              </div>
             </div>
             <div >
               <MapComponent markers={markers} bikeRoutes={displayedBikeRoutes} isLargeScreen={isLargeScreen}/>
