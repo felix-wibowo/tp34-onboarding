@@ -6,7 +6,6 @@ import { AutocompleteCustom } from '@/components/AutocompletePlaces';
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2'
-import ClickableCard from '../ClickableCard';
 import { Chip } from "@material-tailwind/react";
 
 const PLACES_INPUT_NAME = {
