@@ -34,6 +34,7 @@ class DatabaseManager {
       await this.client.connect();
       this.drizzle = drizzlePg(this.client, { schema });
       await migratePg(this.drizzle, { migrationsFolder: path.join(process.cwd(), 'migrations') });
+      logger.info("Connected to ", this.client.host)
     } else {
       const global = globalThis as unknown as { client: PGlite };
       if (!global.client) {
@@ -43,6 +44,7 @@ class DatabaseManager {
       this.client = global.client;
       this.drizzle = drizzlePglite(this.client, { schema });
       await migratePglite(this.drizzle, { migrationsFolder: path.join(process.cwd(), 'migrations') });
+      logger.info("Connected to pglite")
     }
   }
 

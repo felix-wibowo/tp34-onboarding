@@ -6,6 +6,7 @@ import { AutocompleteCustom } from '@/components/AutocompletePlaces';
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2'
+import { Chip } from "@material-tailwind/react";
 
 const PLACES_INPUT_NAME = {
   STARTING: "starting",
@@ -19,27 +20,11 @@ interface MarkerTypes {
 
 export default function Page({bikeRoutes}: any) {
   const [isLargeScreen, setIsLargeScreen] = useState(true); // Assuming 'medium' starts at 768px
-
-  useEffect(() => {
-    setIsLargeScreen(window.innerWidth >= 768);
-
-    const handleResize = () => {
-      setIsLargeScreen(window.innerWidth >= 768);
-      console.log("Resize")
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-
   const [startingPlace, setStartingPlace] = useState<google.maps.places.PlaceResult | null>(null);
   const [destinationPlace, setDestinationPlace] = useState<google.maps.places.PlaceResult | null>(null);
   const [markers, setMarkers] = useState<MarkerTypes[]>([]);
   const [displayedBikeRoutes, setDisplayedBikeRoutes] = useState(bikeRoutes);
+  const [directionSteps, setDirectionSteps] = useState<google.maps.DirectionsStep[]>([]);
 
   const map = useMap();
   const routes = useMapsLibrary('routes');
@@ -87,6 +72,8 @@ export default function Page({bikeRoutes}: any) {
     if (directionService && directionsRenderer) {
       showSwal();
 
+      setMarkers([]);
+
       const startingGeo = { lat: startingPlace?.geometry?.location?.lat() ?? 0, lng: startingPlace?.geometry?.location?.lng() ?? 0}
       const destinationGeo = { lat: destinationPlace?.geometry?.location?.lat() ?? 0, lng: destinationPlace?.geometry?.location?.lng() ?? 0}
       
@@ -94,8 +81,21 @@ export default function Page({bikeRoutes}: any) {
         origin: new google.maps.LatLng(startingGeo.lat, startingGeo.lng),
         destination: new google.maps.LatLng(destinationGeo.lat, destinationGeo.lng),
         travelMode: google.maps.TravelMode.BICYCLING,
+        unitSystem: google.maps.UnitSystem.METRIC
       });
+      
+      const routes = routeResult.routes as google.maps.DirectionsRoute[];
   
+      const allSteps: google.maps.DirectionsStep[] = [];
+
+      routes.forEach(route => {
+        route.legs.forEach(leg => {
+          allSteps.push(...leg.steps);
+        });
+      });
+
+      setDirectionSteps(allSteps);
+        
       setDisplayedBikeRoutes([])
   
       // Scroll to the bottom of the map container after updating the routes
@@ -108,8 +108,35 @@ export default function Page({bikeRoutes}: any) {
   }
 
   useEffect(() => {
+    setIsLargeScreen(window.innerWidth >= 768);
+
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 768);
+      console.log("Resize")
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
     setDisplayedBikeRoutes(bikeRoutes);
   }, [bikeRoutes])
+
+  useEffect(() => {
+    const startingMarker: any = startingPlace ? {lat: startingPlace.geometry?.location?.lat(),lng: startingPlace.geometry?.location?.lng()} : null;
+
+    const destinationMarker: any = destinationPlace ? {lat: destinationPlace.geometry?.location?.lat(),lng: destinationPlace.geometry?.location?.lng()} :  null;
+    
+    const markers: MarkerTypes[] = [];
+    if (startingMarker) markers.push(startingMarker);
+    if (destinationMarker) markers.push(destinationMarker);
+
+    setMarkers(markers);
+  }, [startingPlace, destinationPlace])
 
   useEffect(() => {
     if (!routes || !map) return;
@@ -129,18 +156,6 @@ export default function Page({bikeRoutes}: any) {
       setDirectionsRenderer(null)
     };
   }, [map, routes]);
-
-  useEffect(() => {
-    const startingMarker: any = startingPlace ? {lat: startingPlace.geometry?.location?.lat(),lng: startingPlace.geometry?.location?.lng()} : null;
-
-    const destinationMarker: any = destinationPlace ? {lat: destinationPlace.geometry?.location?.lat(),lng: destinationPlace.geometry?.location?.lng()} :  null;
-    
-    const markers: MarkerTypes[] = [];
-    if (startingMarker) markers.push(startingMarker);
-    if (destinationMarker) markers.push(destinationMarker);
-
-    setMarkers(markers);
-  }, [startingPlace, destinationPlace])
     
     return (
     <>
@@ -169,8 +184,8 @@ export default function Page({bikeRoutes}: any) {
 
         <section id="map-display">
           <div className='flex flex-col md:flex-row'>
-            <div className='p-5'>
-              <form className="w-full max-w-lg">
+            <div className='p-5 h-screen flex flex-col'>
+              <form className="w-full max-w-lg h-auto">
                 <div className="flex flex-wrap mb-2">
                   <div className="w-full px-2 mb-2">
                   <label
@@ -195,16 +210,40 @@ export default function Page({bikeRoutes}: any) {
                   
                   </div>
                 </div>
-                <div className='px-2'>
+                <div className='px-2 pb-4'>
                   <button
                     onClick={findRoute}
                     type="button"
-                    className="text-white bg-orange-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    className="w-full text-white bg-orange-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                     >
                     Find Route
                   </button>
                 </div>
               </form>
+
+              <div className='flex-grow overflow-y-auto'>
+                <hr />
+                  {
+                    directionSteps.length == 0 || 
+                    <>
+                      <div className="flex-1 text-center w-full my-2">
+                        <h2 className="font-sans text-3xl tracking-tight leading-10 font-extrabold sm:text-2xl text-white sm:leading-none md:text-3xl">
+                          <span className="text-orange-400">Route Details</span>
+                        </h2>
+                      </div>
+
+                      <hr />
+                      <div className="flex flex-row mt-2 justify-between">
+                        <div className='flex'>
+                          <Chip variant="outlined" value="Direction Steps"/>
+                        </div>
+                        <div className='flex'>
+                          <Chip variant="outlined" value="Past Accidents"/>
+                        </div>
+                      </div>
+                    </>
+                  }
+              </div>
             </div>
             <div >
               <MapComponent markers={markers} bikeRoutes={displayedBikeRoutes} isLargeScreen={isLargeScreen}/>
@@ -212,7 +251,6 @@ export default function Page({bikeRoutes}: any) {
             <div ref={bottomMostRef}>
             </div>
           </div>
-
         </section>
     </>
   );
