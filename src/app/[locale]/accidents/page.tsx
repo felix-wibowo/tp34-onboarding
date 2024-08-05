@@ -29,14 +29,17 @@ export default function Page() {
             </div>
         </section>
         <section id="routeform" className='bg-white-200'>
-            <div className='flex flex-1 justify-center py-10'>
-                <div className="text-middle">
+            <div className='flex flex-1 justify-center items-center py-5'>
+                <div className="">
                     <h2 className="font-sans text-3xl tracking-tight leading-10 font-extrabold text-black">
                     Bicycle accidents in  
                     <span className="text-orange-400"> different Region in Melbourne.</span>
                     </h2>
-                    <p className="mt-3 text-grey text-lg font-light">
-                    Click on each area to view the bar chart of accidents information across different region.
+                    <p className="mt-3 text-grey ">
+                    Our interactive map provides detailed insights into accident locations throughout Melbourne. By pinpointing the exact locations of these incidents, users can identify safer areas for cycling. This valuable information helps cyclists plan their routes more effectively, ensuring a safer and more enjoyable biking experience.
+                    </p>
+                    <p className="mt-3 text-grey ">
+                    <span className='text-md font-semibold'>Instructions: </span> Zoom in and out to explore accidents that occurred in Melbourne. Use the dropdown menu to filter by different types of accidents. Click on each accident to view detailed information.
                     </p>
                 </div>
             </div>
