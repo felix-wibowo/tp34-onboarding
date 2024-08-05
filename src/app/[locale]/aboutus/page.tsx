@@ -44,10 +44,10 @@ export default function Page() {
                 <div className="text-middle">
                     <h2 className="font-sans text-6xl tracking-tight leading-10 font-extrabold sm:text-5xl text-white sm:leading-none md:text-6xl">
                     About
-                    <span className="text-orange-400"> us</span>
+                    <span className="text-orange-400"> Us</span>
                     </h2>
                     <p className="mt-3 text-white sm:mt-5 sm:max-w-xl md:mt-5 text-lg font-semi-bold">
-                    Stellar Springters
+                    We are Stellar Springters
                     </p>
                 </div>
                 </main>
