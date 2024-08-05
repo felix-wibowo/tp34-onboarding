@@ -6,7 +6,7 @@ import { AutocompleteCustom } from '@/components/AutocompletePlaces';
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2'
-import { Chip } from "@material-tailwind/react";
+import { RouteDetails } from '@/components/pages/RouteDetails';
 
 const PLACES_INPUT_NAME = {
   STARTING: "starting",
@@ -25,6 +25,7 @@ export default function Page({bikeRoutes}: any) {
   const [markers, setMarkers] = useState<MarkerTypes[]>([]);
   const [displayedBikeRoutes, setDisplayedBikeRoutes] = useState(bikeRoutes);
   const [directionSteps, setDirectionSteps] = useState<google.maps.DirectionsStep[]>([]);
+  const [accidents, setAccidents] = useState({});
 
   const map = useMap();
   const routes = useMapsLibrary('routes');
@@ -121,6 +122,28 @@ export default function Page({bikeRoutes}: any) {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    const stepsStartingLocs = directionSteps.map((step) => {
+      return {lat: step.start_location.lat(), lng: step.start_location.lng()}
+    })
+
+    fetch('/api/accidentdata/closest-from', {
+      method: "POST",
+      body: JSON.stringify({ stepsStartingLocs })
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        try {
+          const { aggregatedSeverity } = data
+
+          console.log("Accidents data loaded")
+          setAccidents(aggregatedSeverity);
+        } catch (err) {
+          console.error("Error ", err)
+        }
+      })
+  }, [directionSteps]);
 
   useEffect(() => {
     setDisplayedBikeRoutes(bikeRoutes);
@@ -220,30 +243,8 @@ export default function Page({bikeRoutes}: any) {
                   </button>
                 </div>
               </form>
-
-              <div className='flex-grow overflow-y-auto'>
-                <hr />
-                  {
-                    directionSteps.length == 0 || 
-                    <>
-                      <div className="flex-1 text-center w-full my-2">
-                        <h2 className="font-sans text-3xl tracking-tight leading-10 font-extrabold sm:text-2xl text-white sm:leading-none md:text-3xl">
-                          <span className="text-orange-400">Route Details</span>
-                        </h2>
-                      </div>
-
-                      <hr />
-                      <div className="flex flex-row mt-2 justify-between">
-                        <div className='flex'>
-                          <Chip variant="outlined" value="Direction Steps"/>
-                        </div>
-                        <div className='flex'>
-                          <Chip variant="outlined" value="Past Accidents"/>
-                        </div>
-                      </div>
-                    </>
-                  }
-              </div>
+              
+              <RouteDetails directionSteps={directionSteps} accidents={accidents}/>
             </div>
             <div >
               <MapComponent markers={markers} bikeRoutes={displayedBikeRoutes} isLargeScreen={isLargeScreen}/>

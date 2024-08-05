@@ -16,10 +16,8 @@ export default function Page() {
   }, [])
 
   return (
-    <>
-      <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API || ""} region="AU">
-        <CycleRoutesComponent bikeRoutes={bikeRoutes}/>
-      </APIProvider>
-    </>
+    <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API || ""} region="AU">
+      <CycleRoutesComponent bikeRoutes={bikeRoutes}/>
+    </APIProvider>
   );
 }
