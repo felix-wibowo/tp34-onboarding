@@ -1,5 +1,4 @@
 // Based on example from https://github.com/visgl/react-google-maps/tree/main/examples/marker-clustering
-// import accidents from './accidentdata.json';
 
 export type Accident = {
   accident_no: string;

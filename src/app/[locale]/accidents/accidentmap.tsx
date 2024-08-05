@@ -28,9 +28,9 @@ export default function AccidentMap() {
     }, [accidents, selectedCategory]);
 
     return (
-        <div className='flex flex-row h-[75vh]'>
+        <div className='flex flex-row h-[75vh] w-full items-top justify-center'>
             <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API || ""} region="AU">
-            <div className='basis-9/12 px-5'>
+            <div className='basis-9/12 px-2'>
             <Map
                 mapId={'bf51a910020fa25a'}
                 defaultCenter={{lat: -37.7675396, lng: 144.8821606}}
