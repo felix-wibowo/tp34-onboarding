@@ -23,7 +23,7 @@ export default function Page({bikeRoutes}: any) {
   const [isLargeScreen, setIsLargeScreen] = useState(true); // Assuming 'medium' starts at 768px
   const [startingPlace, setStartingPlace] = useState<google.maps.places.PlaceResult | null>(null);
   const [destinationPlace, setDestinationPlace] = useState<google.maps.places.PlaceResult | null>(null);
-  const [markers, _setMarkers] = useState<MarkerTypes[]>([]);
+  const [markers, setMarkers] = useState<MarkerTypes[]>([]);
   const [displayedBikeRoutes, setDisplayedBikeRoutes] = useState(bikeRoutes);
   const [directionSteps, setDirectionSteps] = useState<google.maps.DirectionsStep[]>([]);
 
@@ -72,6 +72,8 @@ export default function Page({bikeRoutes}: any) {
 
     if (directionService && directionsRenderer) {
       showSwal();
+
+      setMarkers([]);
 
       const startingGeo = { lat: startingPlace?.geometry?.location?.lat() ?? 0, lng: startingPlace?.geometry?.location?.lng() ?? 0}
       const destinationGeo = { lat: destinationPlace?.geometry?.location?.lat() ?? 0, lng: destinationPlace?.geometry?.location?.lng() ?? 0}
@@ -124,6 +126,18 @@ export default function Page({bikeRoutes}: any) {
   useEffect(() => {
     setDisplayedBikeRoutes(bikeRoutes);
   }, [bikeRoutes])
+
+  useEffect(() => {
+    const startingMarker: any = startingPlace ? {lat: startingPlace.geometry?.location?.lat(),lng: startingPlace.geometry?.location?.lng()} : null;
+
+    const destinationMarker: any = destinationPlace ? {lat: destinationPlace.geometry?.location?.lat(),lng: destinationPlace.geometry?.location?.lng()} :  null;
+    
+    const markers: MarkerTypes[] = [];
+    if (startingMarker) markers.push(startingMarker);
+    if (destinationMarker) markers.push(destinationMarker);
+
+    setMarkers(markers);
+  }, [startingPlace, destinationPlace])
 
   useEffect(() => {
     if (!routes || !map) return;
