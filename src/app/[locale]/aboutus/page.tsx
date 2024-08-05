@@ -14,7 +14,7 @@ const people = [
   {
     name: 'Atharva Hendre',
     role: 'MDS',
-    imageUrl: '/path/to/image3.jpg',
+    imageUrl: '/atharva.jpg',
   },
   {
     name: 'Komal',
@@ -24,7 +24,7 @@ const people = [
   {
     name: 'Zuxu Tian',
     role: 'MBIS',
-    imageUrl: '/path/to/imag5.jpg',
+    imageUrl: '/zuxu.jpeg',
   },
 ];
 
